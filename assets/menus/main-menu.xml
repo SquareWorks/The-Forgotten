@@ -1,0 +1,9 @@
+<?xml version="1.0" ?>
+<meta id=0 name="main-menu" type="fullscreen">
+<menu>
+<area align="top-right">
+<button action="yes-no('are you sure want to exit the game?','exit-game','none')" width=50 height=20>
+Exit
+</button>
+</area>
+</menu>
