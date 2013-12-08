@@ -26,7 +26,12 @@ public class MenuLoader {
 				Document document = documentBuilder.parse(f);
 				document.getDocumentElement().normalize();
 				Element meta = document.getElementById("meta");
-				Menu tempMenu = new Menu(Integer.parseInt(meta.getAttribute("id")), meta.getAttribute("name"));
+				Menu tempMenu = new Menu(Integer.parseInt(meta.getAttribute("id")), meta.getAttribute("name"), meta.getAttribute("type"));
+				Element menu = document.getElementById("menu");
+				NodeList nodes = menu.getElementsByTagName("area");
+				for(int i = 0; i < nodes.getLength(); i++){
+					Element area = (Element)nodes.item(i);
+				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -39,7 +44,7 @@ public class MenuLoader {
 		for (File f : dir.listFiles()) {
 			if (f.isDirectory()) {
 				result.addAll(findFilesWithExtension(f, extension));
-			} else if (f.getName().split(".")[1].equals("xml")) {
+			} else if (f.getName().endsWith("." + extension)) {
 				result.add(f);
 			}
 		}
