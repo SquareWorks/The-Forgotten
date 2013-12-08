@@ -26,6 +26,7 @@ public class MenuLoader {
 				Document document = documentBuilder.parse(f);
 				document.getDocumentElement().normalize();
 				Element meta = document.getElementById("meta");
+				Menu tempMenu = new Menu(Integer.parseInt(meta.getAttribute("id")), meta.getAttribute("name"));
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
