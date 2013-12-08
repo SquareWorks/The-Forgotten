@@ -1,4 +1,4 @@
-package squareworks.mandw;
+package squareworks.theforgotten;
 
 import org.newdawn.slick.AppGameContainer;
 import org.newdawn.slick.GameContainer;

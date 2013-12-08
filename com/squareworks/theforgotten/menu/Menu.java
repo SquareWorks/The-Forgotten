@@ -1,4 +1,4 @@
-package squareworks.mandw.menu;
+package squareworks.theforgotten.menu;
 
 import java.util.ArrayList;
 

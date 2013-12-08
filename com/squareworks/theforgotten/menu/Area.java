@@ -1,4 +1,4 @@
-package squareworks.mandw.menu;
+package squareworks.theforgotten.menu;
 
 public class Area {
 

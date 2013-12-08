@@ -1,4 +1,4 @@
-package squareworks.mandw.menu;
+package squareworks.theforgotten.menu;
 
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
