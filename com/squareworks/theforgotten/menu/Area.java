@@ -1,6 +1,6 @@
 package squareworks.theforgotten.menu;
 
-public class Area {
+public class Area extends GUIElement{
 
 	private final int ALIGN;
 	public static final int LEFT = 0;

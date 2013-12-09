@@ -10,11 +10,21 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
 
+import com.sun.xml.internal.ws.developer.MemberSubmissionEndpointReference.Elements;
+
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MenuLoader {
+	private static Map<String, Class> elements = new HashMap<String, Class>();
+	static{
+		elements.put("area", Area.class);
+		elements.put("menu", Menu.class);
+	}
 
 	public MenuLoader(File dir) {
 		for (File f : findFilesWithExtension(dir, "xml")) {
@@ -25,17 +35,34 @@ public class MenuLoader {
 						.newDocumentBuilder();
 				Document document = documentBuilder.parse(f);
 				document.getDocumentElement().normalize();
-				Element meta = document.getElementById("meta");
-				Menu tempMenu = new Menu(Integer.parseInt(meta.getAttribute("id")), meta.getAttribute("name"), meta.getAttribute("type"));
-				Element menu = document.getElementById("menu");
-				NodeList nodes = menu.getElementsByTagName("area");
+				NodeList nodes = document.getChildNodes();
 				for(int i = 0; i < nodes.getLength(); i++){
-					Element area = (Element)nodes.item(i);
+					Element element = (Element)nodes.item(i);
+					
 				}
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
+	}
+	
+	public GUIElement parseElement(Element element){
+		Class elementType = elements.get(element.getNodeValue());
+		Map<String,String> attributes = new HashMap<String,String>();
+		for(int i = 0; i < element.getAttributes().getLength(); i++){
+			String name = element.getAttributes().item(i).getNodeName();
+			String value = element.getAttribute(name);
+			attributes.put(name, value);
+		}
+		try {
+			return (GUIElement) elementType.getConstructor().newInstance(attributes);
+		} catch (InstantiationException | IllegalAccessException
+				| IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
 		}
 	}
 

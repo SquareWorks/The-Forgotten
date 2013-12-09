@@ -26,7 +26,7 @@ public class GameBase extends StateBasedGame {
 	}
 
 	public static void main(String[] args) {
-		new GameBase("Mages and Warlocks");
+		new GameBase("The Forgotten");
 
 	}
 
