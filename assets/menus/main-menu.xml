@@ -1,8 +1,7 @@
 <?xml version="1.0" ?>
-<meta id=0 name="main-menu" type="fullscreen">
 <menu id="main-menu" type="fullscreen">
-<area align="top-right">
-<button action="yes-no('are you sure want to exit the game?','exit-game','none')" width=50 height=20>
+<area align="left" width="200" height="200">
+<button action="yes-no('are you sure want to exit the game?','exit-game','none')" width="50" height="20">
 Exit
 </button>
 </area>

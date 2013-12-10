@@ -24,9 +24,10 @@ public class MenuLoader {
 	static{
 		elements.put("area", Area.class);
 		elements.put("menu", Menu.class);
+		elements.put("button", Button.class);
 	}
 
-	public MenuLoader(File dir) {
+	public MenuLoader(File dir, Map<String, Menu> menuMap) {
 		for (File f : findFilesWithExtension(dir, "xml")) {
 			try {
 				DocumentBuilderFactory builderFactory = DocumentBuilderFactory
@@ -38,6 +39,12 @@ public class MenuLoader {
 				NodeList nodes = document.getChildNodes();
 				for(int i = 0; i < nodes.getLength(); i++){
 					Element element = (Element)nodes.item(i);
+					GUIElement guiElement = parseElement(element);
+					if(guiElement instanceof Menu){
+						Menu menu = (Menu)guiElement;
+						menuMap.put(menu.getAttribute("id"), menu);
+						System.out.println(menu.getAttribute("id") + " loaded");
+					}
 					
 				}
 			} catch (Exception e) {
@@ -48,22 +55,29 @@ public class MenuLoader {
 	}
 	
 	public GUIElement parseElement(Element element){
-		Class elementType = elements.get(element.getNodeValue());
+		Class elementType = elements.get(element.getNodeName());
 		Map<String,String> attributes = new HashMap<String,String>();
 		for(int i = 0; i < element.getAttributes().getLength(); i++){
 			String name = element.getAttributes().item(i).getNodeName();
 			String value = element.getAttribute(name);
 			attributes.put(name, value);
 		}
+		GUIElement guiElement;
 		try {
-			return (GUIElement) elementType.getConstructor().newInstance(attributes);
+			guiElement = (GUIElement) elementType.getConstructor(Map.class).newInstance(attributes);
 		} catch (InstantiationException | IllegalAccessException
 				| IllegalArgumentException | InvocationTargetException
-				| NoSuchMethodException | SecurityException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+				| NoSuchMethodException | SecurityException e1) {
+			e1.printStackTrace();
 			return null;
 		}
+		if(element.hasChildNodes()){
+			NodeList childNodes = element.getElementsByTagName("*");
+			for(int i = 0; i < childNodes.getLength(); i++){
+				guiElement.add(parseElement((Element)childNodes.item(i)));
+			}
+		}
+		return guiElement;
 	}
 
 	public ArrayList<File> findFilesWithExtension(File dir, String extension) {

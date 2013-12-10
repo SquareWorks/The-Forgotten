@@ -1,13 +1,29 @@
 package squareworks.theforgotten.menu;
 
+import java.util.Map;
+
+import org.newdawn.slick.GameContainer;
+import org.newdawn.slick.Graphics;
+
 public class Area extends GUIElement{
 
-	private final int ALIGN;
-	public static final int LEFT = 0;
-	public static final int RIGHT = 1;
-	public static final int CENTER = 2;
+	public Area(Map<String, String> attributes) {
+		super(attributes);
+		// TODO Auto-generated constructor stub
+	}
 	
-	public Area(int align){
-		ALIGN = align;
+	@Override
+	public void render(GameContainer gc, Graphics g) {
+		String align = attributes.get("align");
+		int width = Integer.parseInt(attributes.get("width"));
+		int height = Integer.parseInt(attributes.get("height"));
+		if(align.equals("right")){
+			g.drawRect(gc.getWidth() - width, 0, width, height);
+		}else if(align.equals("left")){
+			g.drawRect(0, 0, width, height);
+		}else if(align.equals("center")){
+			g.drawRect(gc.getWidth()/2 - (width/2), 0, width, height);
+		}
+		super.render(gc, g);
 	}
 }
